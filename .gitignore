@@ -6,15 +6,15 @@
 *.log
 
 # Build folders
-bin/
-out/
-build/
+Chat/bin
+Chat/out/
+Chat/build/
 
 # IDE settings
-.idea/
-*.iml
-.vscode/
+Chat/.idea/
+Chat/*.iml
+Chat/.vscode/
 
 # OS files
-.DS_Store
-Thumbs.db
+Chat/.DS_Store
+Chat/Thumbs.db
