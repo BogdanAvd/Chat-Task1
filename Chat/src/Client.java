@@ -9,7 +9,7 @@ public class Client {
         System.out.println("Введіть IP адрес сервера: ");
         String serverIp = console.readLine();
 
-       Socket socket = new Socket(serverIp, 12345); // localhost встановлений для тестування
+        Socket socket = new Socket(serverIp, 12345); 
     
        new Thread(() -> {
             try {
@@ -22,6 +22,9 @@ public class Client {
         }).start();
 
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+        System.out.println("Введіть своє ім'я: ");
+        String name = console.readLine();
+        out.println(name);
         String input;
         while((input = console.readLine()) != null) {
             out.println(input);

@@ -9,7 +9,7 @@ public class Server {
         System.out.println("Server start!");
         while(true) {
             Socket client = server.accept();
-            new ClientHandler(client);
+            new Thread(new ClientHandler(client)).start();
         }
     }
 
@@ -27,7 +27,7 @@ public class Server {
             System.out.println("Новий клієнт приєднався!");
             try {
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                out = new PrintWriter(socket.getOutputStream());
+                out = new PrintWriter(socket.getOutputStream(), true);
                 synchronized(clientWriters) {
                     clientWriters.add(out);
                 } 
@@ -38,7 +38,9 @@ public class Server {
                 String message;
                 while((message = in.readLine()) != null) {
                     synchronized(clientWriters) {
-                        out.println(name + ": " + message);
+                        for (PrintWriter writer : clientWriters) {
+                            writer.println(name + ": " + message);
+                        }
                     }
                 }
             } catch(IOException e) {
