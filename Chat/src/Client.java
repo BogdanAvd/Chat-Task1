@@ -18,6 +18,7 @@ public class Client {
             ipAdress = keybord("Введіть Ip адрес сервера: ");
             try{
                 Socket socket = new Socket(ipAdress, PORT);
+                setName(socket);
                 getMsgFromServer(socket);
                 sendMsgToServer(socket);
                 break;
@@ -49,7 +50,7 @@ public class Client {
         }).start();
     }
 
-    public void setName(String name, Socket socket) {
+    public void setName(Socket socket) {
         name = keybord("Введіть своє ім'я: ");
         initOut(socket);
         out.println(name);

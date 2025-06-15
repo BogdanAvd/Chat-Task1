@@ -32,14 +32,14 @@ public class Server {
                     clientWriters.add(out);
                 } 
 
-                System.out.println("Введіть своє ім'я: ");
-                name = in.readLine();
+                // System.out.println("Введіть своє ім'я: ");
+                // name = in.readLine();
 
                 String message;
                 while((message = in.readLine()) != null) {
                     synchronized(clientWriters) {
                         for (PrintWriter writer : clientWriters) {
-                            writer.println(name + ": " + message);
+                            writer.println(message);
                         }
                     }
                 }
