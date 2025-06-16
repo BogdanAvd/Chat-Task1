@@ -8,8 +8,8 @@ public class Client {
     private static final int PORT = 12345;
     private String ipAdress;
     private String name;
-    Scanner scanner;
-    PrintWriter out;
+    private Scanner scanner;
+    private PrintWriter out;
 
     // === ПУБЛІЧНИЙ ІНТЕРФЕЙС ===
 
@@ -37,7 +37,7 @@ public class Client {
             out.println(name + ": " + msg);
     }
 
-    public void getMsgFromServer(Socket socket) {
+    private void getMsgFromServer(Socket socket) {
         new Thread (() -> {
             String serverMsg;
             try {
@@ -50,7 +50,7 @@ public class Client {
         }).start();
     }
 
-    public void setName(Socket socket) {
+    private void setName(Socket socket) {
         name = keybord("Введіть своє ім'я: ");
         initOut(socket);
         out.println(name);
@@ -66,20 +66,20 @@ public class Client {
         }
     }
 
-    public String keybord(String prompt) {
+    private String keybord(String prompt) {
         System.out.println(prompt);
         scanner = new Scanner(System.in);
         String str = scanner.nextLine();
         return str;
     }
 
-    public String keybord() {
+    private String keybord() {
         scanner = new Scanner(System.in);
         String str = scanner.nextLine();
         return str;
     }
 
-    public String readFromSocket(Socket socket) throws IOException {
+    private String readFromSocket(Socket socket) throws IOException {
         scanner = new Scanner(socket.getInputStream());
         return scanner.nextLine();
     }
