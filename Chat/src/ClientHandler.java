@@ -26,7 +26,7 @@ public class ClientHandler implements Runnable {
         startClientHandler();
     }
 
-    public void startClientHandler() {
+    private void startClientHandler() {
         createReaderFromSocket(socket);
         changeName();
         addClientToSet();
@@ -62,14 +62,14 @@ public class ClientHandler implements Runnable {
     }
 
     // === Додавання/видалення клієнта зі списку ===
-    public void addClientToSet() {
+    private void addClientToSet() {
         createPrintWriter(socket);
         synchronized (clientWriters) {
             clientWriters.add(out);
         }
     }
 
-    public void closeClient() {
+    private void closeClient() {
         try {
             socket.close();
         } catch (IOException e) {
@@ -89,7 +89,7 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    public void showClientMessageForAll() {
+    private void showClientMessageForAll() {
         String msg;
         try {
             while ((msg = in.readLine()) != null) {
