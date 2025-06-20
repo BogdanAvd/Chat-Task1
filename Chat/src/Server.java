@@ -6,6 +6,8 @@ public class Server {
     private static final int PORT = 12345;
     private ServerSocket serverSocket;
     private Socket clientSocket;
+    
+    private boolean serverStatusFlag = false;
 
     public void startServerSocket() {
         try {
@@ -18,7 +20,7 @@ public class Server {
     }
 
     private void startAcceptClients() {
-        while(true) {   
+        while(serverStatusFlag) {   
             try {
                 clientSocket = serverSocket.accept();
             } catch (IOException e) {
@@ -35,6 +37,7 @@ public class Server {
     public void stopServerSocket() {
         try {
             if (serverSocket != null && !serverSocket.isClosed()) {
+                serverStatusFlag = false;
                 serverSocket.close();
                 System.out.println("Server stopped!");
             }

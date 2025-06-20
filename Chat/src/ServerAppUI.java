@@ -37,6 +37,7 @@ public class ServerAppUI extends JFrame{
     private void stopServer() {
     if (server != null) {
         server.stopServerSocket();
+        serverThread.interrupt();
         setStatus("зупинено");
         appendLog("Сервер зупинено.");
         startButton.setEnabled(true);
