@@ -6,8 +6,10 @@ public class Server {
     private static final int PORT = 12345;
     private ServerSocket serverSocket;
     private Socket clientSocket;
+
+    private boolean serverStatusFlag = true;
     
-    private boolean serverStatusFlag = false;
+    private final ClientHandler clientHandler = new ClientHandler();
 
     public void startServerSocket() {
         try {
@@ -31,7 +33,7 @@ public class Server {
     }
 
     private void passClientToStream(Socket clientSocket) {
-        new Thread(new ClientHandler(clientSocket)).start();
+        clientHandler.handleClient(clientSocket);
     }
     
     public void stopServerSocket() {
