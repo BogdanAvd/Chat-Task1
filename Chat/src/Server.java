@@ -31,4 +31,15 @@ public class Server {
     private void passClientToStream(Socket clientSocket) {
         new Thread(new ClientHandler(clientSocket)).start();
     }
+    
+    public void stopServerSocket() {
+        try {
+            if (serverSocket != null && !serverSocket.isClosed()) {
+                serverSocket.close();
+                System.out.println("Server stopped!");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
