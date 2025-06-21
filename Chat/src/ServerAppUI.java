@@ -40,7 +40,6 @@ public class ServerAppUI extends JFrame{
         setStatus("зупинено");
         appendLog("Сервер зупинено.");
         startButton.setEnabled(true);
-        System.out.println("HELLLOO");
     }
 }
     
