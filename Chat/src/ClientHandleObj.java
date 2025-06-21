@@ -7,6 +7,7 @@ public class ClientHandleObj {
     private PrintWriter out;
     private BufferedReader in;
     private String name;
+    private String address;
 
 
     public Socket getSocket() {
@@ -39,5 +40,13 @@ public class ClientHandleObj {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

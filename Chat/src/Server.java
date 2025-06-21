@@ -8,8 +8,14 @@ public class Server {
     private Socket clientSocket;
 
     private boolean serverStatusFlag = true;
-    
+
     private final ClientHandler clientHandler = new ClientHandler();
+    
+    private ClientCallback clientCallback;
+
+    public void setClientCallback(ClientCallback clientCallback) {
+        this.clientCallback = clientCallback;
+    }
 
     public void startServerSocket() {
         try {
@@ -33,7 +39,11 @@ public class Server {
     }
 
     private void passClientToStream(Socket clientSocket) {
-        clientHandler.handleClient(clientSocket);
+        Optional<ClientHandleObj> clientHandleObjOpt = clientHandler.handleClient(clientSocket);
+        if(clientHandleObjOpt.isPresent()) {
+            ClientHandleObj clientHandleObj = clientHandleObjOpt.get();
+            clientCallback.onClientConnected(clientHandleObj.getName(),clientHandleObj.getAddress());
+        }
     }
     
     public void stopServerSocket() {

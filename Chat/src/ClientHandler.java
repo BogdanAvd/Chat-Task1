@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-public class ClientHandler  {
+public class ClientHandler {
 
     // === Поля ===
     private static final Set<ClientHandleObj> clients = new HashSet<>();
@@ -17,40 +17,43 @@ public class ClientHandler  {
     }
 
     // === Основний життєвий цикл клієнта ===
-    public void handleClient(Socket socket) {
-        startClientHandler(socket);
+    public Optional<ClientHandleObj> handleClient(Socket socket) {
+        return startClientHandler(socket);
     }
 
-    private void startClientHandler(Socket socket) {
+    private Optional<ClientHandleObj> startClientHandler(Socket socket) {
         Optional<BufferedReader> readerFromSocket = createReaderFromSocket(socket);
         if (readerFromSocket.isPresent()) {
+            ClientHandleObj clientHandleObj = new ClientHandleObj();
             BufferedReader reader = readerFromSocket.get();
             Optional<String> optionalName = getName(reader);
-            if (optionalName.isPresent()){
+            if (optionalName.isPresent()) {
                 String name = optionalName.get();
                 broadcastMessage("До чату приєднався новий учасник! Привітайте " + name + "!");
+                clientHandleObj.setName(name);
             }
             Optional<PrintWriter> printWriterOptional = createPrintWriter(socket);
             if (printWriterOptional.isPresent()) {
                 PrintWriter printWriter = printWriterOptional.get();
-                ClientHandleObj clientHandleObj = new ClientHandleObj();
                 clientHandleObj.setSocket(socket);
                 clientHandleObj.setIn(reader);
                 clientHandleObj.setOut(printWriter);
+                clientHandleObj.setAddress(socket.getInetAddress().getHostAddress());
                 addClientToSet(clientHandleObj);
                 new Thread(() -> {
                     showClientMessageForAll(reader);
                     closeClient(clientHandleObj);
                 }).start();
-                
+                return Optional.of(clientHandleObj);
             }
         }
+        return Optional.empty();
     }
 
     // === Робота з потоками вводу/виводу ===
     private Optional<BufferedReader> createReaderFromSocket(Socket socket) {
         try {
-           return Optional.of(new BufferedReader(new InputStreamReader(socket.getInputStream())));
+            return Optional.of(new BufferedReader(new InputStreamReader(socket.getInputStream())));
         } catch (IOException e) {
             e.printStackTrace();
         }
