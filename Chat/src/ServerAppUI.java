@@ -17,7 +17,7 @@ public class ServerAppUI extends JFrame{
         setStatus("запущено");
         appendLog("Сервер запускається...");
 
-        server = new Server();
+        server = new Server(this);
         serverThread = new Thread(() -> {
             server.startServerSocket();
         });
@@ -25,6 +25,11 @@ public class ServerAppUI extends JFrame{
         appendLog("Сервер запущений!\nЧекаємо нових клієнтів...");
     }
 
+    public void notifyNewUser(String name) {
+        if (name != null) {
+            appendLog("Приєднався новий учасник: " + name);
+        }
+    }
     
     public ServerAppUI() {
         initComponents();

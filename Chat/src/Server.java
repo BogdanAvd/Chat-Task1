@@ -7,8 +7,11 @@ public class Server {
     private ServerSocket serverSocket;
     private Socket clientSocket;
     private volatile boolean running = false;
+    private ServerAppUI ui;
 
-    String msg;
+    public Server(ServerAppUI ui) {
+        this.ui = ui;
+    }
     
     public void startServerSocket() {
         try {
@@ -21,11 +24,6 @@ public class Server {
         }
     }
     
-    private void getMsg() {
-        ClientHandler cl = new ClientHandler(clientSocket);
-        System.out.println(cl.sendMessageToServer("H"));
-    }
-
     private void startAcceptClients() {
         while (running) {
             try {
@@ -42,7 +40,7 @@ public class Server {
     }
 
     private void passClientToStream(Socket clientSocket) {
-        new Thread(new ClientHandler(clientSocket)).start();
+        new Thread(new ClientHandler(clientSocket, ui)).start();
     }
 
     public void stopServerSocket() {

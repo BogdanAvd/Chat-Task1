@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,10 +15,12 @@ public class ClientHandler implements Runnable {
     private PrintWriter out;
     private BufferedReader in;
     private static final Set<PrintWriter> clientWriters = new HashSet<>();
+    private ServerAppUI ui;
 
     // === Конструктор ===
-    public ClientHandler(Socket socket) {
+    public ClientHandler(Socket socket, ServerAppUI ui) {
         this.socket = socket;
+        this.ui = ui;
     }
 
     // === Основний життєвий цикл клієнта ===
@@ -30,11 +33,12 @@ public class ClientHandler implements Runnable {
         createReaderFromSocket(socket);
         changeName();
         addClientToSet();
+        ui.notifyNewUser(name);
         broadcastMessage("До чату приєднався новий учасник! Привітайте " + name + "!");
         showClientMessageForAll();
         closeClient();
     }
-
+    
     // === Робота з потоками вводу/виводу ===
     private void createReaderFromSocket(Socket socket) {
         try {
@@ -78,11 +82,6 @@ public class ClientHandler implements Runnable {
         synchronized (clientWriters) {
             clientWriters.remove(out);
         }
-    }
-    
-    public String sendMessageToServer(String msg) {
-        msg = ("Приєднався новий клієнт: " + name);
-        return msg;
     }
 
     // === Робота з повідомленнями ===
