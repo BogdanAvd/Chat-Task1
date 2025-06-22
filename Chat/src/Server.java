@@ -8,6 +8,8 @@ public class Server {
     private Socket clientSocket;
     private volatile boolean running = false;
 
+    String msg;
+    
     public void startServerSocket() {
         try {
             serverSocket = new ServerSocket(PORT);
@@ -17,6 +19,11 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    private void getMsg() {
+        ClientHandler cl = new ClientHandler(clientSocket);
+        System.out.println(cl.sendMessageToServer("H"));
     }
 
     private void startAcceptClients() {

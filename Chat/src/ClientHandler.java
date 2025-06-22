@@ -79,6 +79,11 @@ public class ClientHandler implements Runnable {
             clientWriters.remove(out);
         }
     }
+    
+    public String sendMessageToServer(String msg) {
+        msg = ("Приєднався новий клієнт: " + name);
+        return msg;
+    }
 
     // === Робота з повідомленнями ===
     private void broadcastMessage(String msg) {
