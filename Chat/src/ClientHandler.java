@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,10 +15,12 @@ public class ClientHandler implements Runnable {
     private PrintWriter out;
     private BufferedReader in;
     private static final Set<PrintWriter> clientWriters = new HashSet<>();
+    private ServerAppUI ui;
 
     // === Конструктор ===
-    public ClientHandler(Socket socket) {
+    public ClientHandler(Socket socket, ServerAppUI ui) {
         this.socket = socket;
+        this.ui = ui;
     }
 
     // === Основний життєвий цикл клієнта ===
@@ -26,15 +29,16 @@ public class ClientHandler implements Runnable {
         startClientHandler();
     }
 
-    public void startClientHandler() {
+    private void startClientHandler() {
         createReaderFromSocket(socket);
         changeName();
         addClientToSet();
+        ui.notifyNewUser(name);
         broadcastMessage("До чату приєднався новий учасник! Привітайте " + name + "!");
         showClientMessageForAll();
         closeClient();
     }
-
+    
     // === Робота з потоками вводу/виводу ===
     private void createReaderFromSocket(Socket socket) {
         try {
@@ -62,14 +66,14 @@ public class ClientHandler implements Runnable {
     }
 
     // === Додавання/видалення клієнта зі списку ===
-    public void addClientToSet() {
+    private void addClientToSet() {
         createPrintWriter(socket);
         synchronized (clientWriters) {
             clientWriters.add(out);
         }
     }
 
-    public void closeClient() {
+    private void closeClient() {
         try {
             socket.close();
         } catch (IOException e) {
@@ -89,7 +93,7 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    public void showClientMessageForAll() {
+    private void showClientMessageForAll() {
         String msg;
         try {
             while ((msg = in.readLine()) != null) {
