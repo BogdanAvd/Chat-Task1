@@ -6,51 +6,29 @@ public class Server {
     private static final int PORT = 12345;
     private ServerSocket serverSocket;
     private Socket clientSocket;
-    private volatile boolean running = false;
-    private ServerAppUI ui;
 
-    public Server(ServerAppUI ui) {
-        this.ui = ui;
-    }
-    
     public void startServerSocket() {
         try {
             serverSocket = new ServerSocket(PORT);
-            running = true;
-            System.out.println("Server start!");
-            startAcceptClients();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("Server start!");
+        startAcceptClients();
     }
-    
+
     private void startAcceptClients() {
-        while (running) {
+        while(true) {   
             try {
                 clientSocket = serverSocket.accept();
-                passClientToStream(clientSocket);
             } catch (IOException e) {
-                if (running) {
-                    e.printStackTrace();
-                }
-                // Если сервер закрыт, выбрасывается исключение - можно выйти из цикла
-                break;
+                e.printStackTrace();
             }
+            passClientToStream(clientSocket);
         }
     }
 
     private void passClientToStream(Socket clientSocket) {
-        new Thread(new ClientHandler(clientSocket, ui)).start();
-    }
-
-    public void stopServerSocket() {
-        running = false;
-        try {
-            if (serverSocket != null && !serverSocket.isClosed()) {
-                serverSocket.close();
-            }
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
+        new Thread(new ClientHandler(clientSocket)).start();
     }
 }

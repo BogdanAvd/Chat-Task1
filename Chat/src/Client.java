@@ -30,7 +30,7 @@ public class Client {
         }
     }
 
-    private void sendMsgToServer(Socket socket) {
+    public void sendMsgToServer(Socket socket) {
         String msg;
         initOut(socket);
         while((msg = keybord()) != null) 

@@ -1,5 +1,7 @@
 public class ServerApp {
     public static void main(String[] args) {
-        new ServerAppUI();
+        Server server = new Server();
+
+        server.startServerSocket();
     }
 }
