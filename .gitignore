@@ -10,10 +10,12 @@ Chat/bin
 Chat/out/
 Chat/build/
 
+out/
+
 # IDE settings
-Chat/.idea/
-Chat/*.iml
-Chat/.vscode/
+.idea/
+*.iml
+.vscode/
 
 # OS files
 Chat/.DS_Store
