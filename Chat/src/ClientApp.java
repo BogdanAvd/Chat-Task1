@@ -1,12 +1,14 @@
-import java.io.IOException;
-import java.util.Scanner;
+//import java.io.IOException;
+//import java.util.Scanner;
 
 public class ClientApp {
-    public static void main(String[] args) throws IOException{
-
-        Client client = new Client();
-
-        client.start();
-        
+    public static void main(String[] args) {
+//
+//        Client client = new Client();
+//
+//        client.start();
+//
+//    }
+        new ClientAppUI();
     }
 }
