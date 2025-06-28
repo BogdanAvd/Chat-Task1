@@ -31,9 +31,7 @@ public class Server {
                 clientSocket = serverSocket.accept();
                 passClientToStream(clientSocket);
             } catch (IOException e) {
-                if (running) {
-                    e.printStackTrace();
-                }
+                e.printStackTrace();
                 break;
             }
         }
