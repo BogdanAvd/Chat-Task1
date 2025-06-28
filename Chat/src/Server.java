@@ -8,6 +8,7 @@ public class Server {
     private Socket clientSocket;
     private volatile boolean running = false;
     private ServerAppUI ui;
+    private ArrayList<ClientHandler> handlers = new ArrayList<>();
 
     public Server(ServerAppUI ui) {
         this.ui = ui;
@@ -33,19 +34,24 @@ public class Server {
                 if (running) {
                     e.printStackTrace();
                 }
-                // Если сервер закрыт, выбрасывается исключение - можно выйти из цикла
                 break;
             }
         }
     }
 
     private void passClientToStream(Socket clientSocket) {
-        new Thread(new ClientHandler(clientSocket, ui)).start();
+        ClientHandler handler = new ClientHandler(clientSocket, ui);
+        handlers.add(handler);
+        Thread thread = new Thread(handler);
+        thread.start();
     }
 
     public void stopServerSocket() {
         running = false;
         try {
+            for(ClientHandler handler : handlers) {
+                handler.closeClient();
+            }
             if (serverSocket != null && !serverSocket.isClosed()) {
                 serverSocket.close();
             }

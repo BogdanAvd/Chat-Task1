@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Client {
@@ -40,12 +41,8 @@ public class Client {
     private void getMsgFromServer(Socket socket) {
         new Thread (() -> {
             String serverMsg;
-            try {
-                while ((serverMsg = readFromSocket(socket)) != null) {
-                    System.out.println(serverMsg);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+            while ((serverMsg = readFromSocket(socket)) != null) {
+                System.out.println(serverMsg);
             }
         }).start();
     }
@@ -79,9 +76,14 @@ public class Client {
         return str;
     }
 
-    private String readFromSocket(Socket socket) throws IOException {
-        scanner = new Scanner(socket.getInputStream());
-        return scanner.nextLine();
+    private String readFromSocket(Socket socket) {
+        try {
+            scanner = new Scanner(socket.getInputStream());
+            return scanner.nextLine();
+        } catch(IOException | NoSuchElementException e) {
+            System.out.println("Server was stopped!");
+            return null;
+        }
     }
 }
 
