@@ -73,7 +73,7 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    private void closeClient() {
+    public void closeClient() {
         try {
             socket.close();
         } catch (IOException e) {
