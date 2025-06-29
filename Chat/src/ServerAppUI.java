@@ -14,6 +14,7 @@ public class ServerAppUI extends JFrame{
         
     private void startServer() {
         startButton.setEnabled(false);
+        stopButton.setEnabled(true);
         setStatus("запущено");
         appendLog("Сервер запускається...");
 
@@ -36,6 +37,7 @@ public class ServerAppUI extends JFrame{
         layoutComponents();
         addListenersForButtons();
         setVisible(true);
+        stopButton.setEnabled(false);
     }
 
 
@@ -44,6 +46,7 @@ public class ServerAppUI extends JFrame{
         server.stopServerSocket();
         setStatus("зупинено");
         appendLog("Сервер зупинено.");
+        stopButton.setEnabled(false);
         startButton.setEnabled(true);
     }
 }
