@@ -2,11 +2,11 @@ import java.awt.*;
 import javax.swing.*;
 
 public class ClientAppUI extends FabricMethodsForUI{
-    private JTextField ipAdressArea;
-    private JTextField setNameArea;
+    private JTextField ipAdressArea; // - Done
+    private JTextField setNameArea; // - Done
     private JTextArea messagesArea;
     private JButton sendButton;
-    private JButton connectButton;
+    private JButton connectButton; // - Done
     private JButton disconnectButton;
     private JButton changeNameButton;
     private JFrame frame;

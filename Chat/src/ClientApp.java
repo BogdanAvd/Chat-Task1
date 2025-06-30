@@ -9,6 +9,6 @@ public class ClientApp {
 //        client.start();
 //
 //    }
-        new ClientAppUI();
+        new ClientConnectionDialog();
     }
 }

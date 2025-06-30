@@ -4,6 +4,7 @@ import javax.swing.*;
 public class FabricMethodsForUI extends JFrame {
     public JTextField createTextField(String text, boolean editField) {
         JTextField textField = new JTextField(text);
+        textField.setPreferredSize(new Dimension(150, 25));
         textField.setEditable(editField);
 
         return textField;
@@ -12,6 +13,7 @@ public class FabricMethodsForUI extends JFrame {
     public JTextField createTextField(boolean editField) {
         JTextField textField = new JTextField();
         textField.setEditable(editField);
+        textField.setPreferredSize(new Dimension(150, 25));
 
         return textField;
     }
